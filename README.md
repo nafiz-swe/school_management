@@ -3,8 +3,7 @@
 
 The Laravel + React starter kit is open-sourced software licensed under the MIT license.
 
-# ###################################
-    School Management Systems
+## School Management Systems
 # ###################################
 🎯 প্রজেক্ট: School Management System (Full Stack)
 
@@ -50,9 +49,9 @@ Message between teacher & student (AJAX chat)
 Push notification (optional)
 
 
-## Sanctum ইনস্টল (Authentication এর জন্য)
-# ###################################
+# Sanctum ইনস্টল (Authentication এর জন্য)
+##
 composer require laravel/sanctum
 php artisan migrate
 php artisan vendor:publish --provider="Laravel\Sanctum\SanctumServiceProvider"
-# ###################################
+##
