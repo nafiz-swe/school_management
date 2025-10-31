@@ -48,12 +48,11 @@ API endpoint for frontend display
 Message between teacher & student (AJAX chat)
 Push notification (optional)
 
-
+# ##
 #### Sanctum ইনস্টল (Authentication এর জন্য)
-# ##
 composer require laravel/sanctum
-# ##
+#
 php artisan migrate
-# ##
+#
 php artisan vendor:publish --provider="Laravel\Sanctum\SanctumServiceProvider"
-# ##
+#
