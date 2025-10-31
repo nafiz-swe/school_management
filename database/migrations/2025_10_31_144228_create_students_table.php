@@ -16,7 +16,8 @@ return new class extends Migration
             $table->string('name');
             $table->string('email')->unique();
             $table->string('phone')->nullable();
-            $table->foreignId('class_room_id')->constrained()->onDelete('cascade');
+            $table->unsignedBigInteger('class_room_id'); // শুধু number, constraint নেই
+            // $table->foreignId('class_room_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }

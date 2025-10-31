@@ -55,4 +55,39 @@ composer require laravel/sanctum
 php artisan migrate
 #
 php artisan vendor:publish --provider="Laravel\Sanctum\SanctumServiceProvider"
-#
+# ##
+
+# ##
+## 1️⃣ Laravel Project 30% Overview
+✔️ Laravel installed (composer create-project)
+✔️ .env configured
+✔️ Database connected
+
+2️⃣ Authentication (Laravel Sanctum)
+
+✔️ Register
+✔️ Login
+✔️ Logout
+✔️ Token system (Bearer Token)
+👉 মানে frontend বা Postman থেকে সহজেই authorized API request পাঠানো যাবে
+
+3️⃣ Models + Migrations
+
+✔️ User
+✔️ ClassRoom
+✔️ Subject
+✔️ Student
+✔️ ExamResult
+
+✅ এখন সব foreign key constraint ঠিক করা হয়েছে
+✅ php artisan migrate:fresh দিলে সব টেবিল তৈরি হবে
+
+4️⃣ Controllers (API version)
+
+✔️ AuthController → Register, Login, Logout ✅
+✔️ StudentController → CRUD (Create, Read, Update, Delete) ✅
+
+5️⃣ Routes (routes/api.php)
+
+✔️ Public routes → /register, /login
+✔️ Protected routes → /logout, /students (CRUD) ✅
