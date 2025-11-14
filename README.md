@@ -91,3 +91,8 @@ php artisan vendor:publish --provider="Laravel\Sanctum\SanctumServiceProvider"
 
 ✔️ Public routes → /register, /login
 ✔️ Protected routes → /logout, /students (CRUD) ✅
+
+
+## APP pass
+EMAIL_ADDRESS = "?????????@gmail.com"
+EMAIL_PASSWORD = "jwnwzwaolgnadxfq"

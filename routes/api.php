@@ -11,10 +11,9 @@ Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 
 Route::middleware('auth:sanctum')->group(function () {
-    Route::post('/logout', [AuthController::class, 'logout']);
-    
-    Route::apiResource('students', StudentController::class);
-    Route::apiResource('classes', ClassRoomController::class);
-    Route::apiResource('subjects', SubjectController::class);
-    Route::apiResource('results', ExamResultController::class);
+Route::post('/logout', [AuthController::class, 'logout']);
+Route::apiResource('students', StudentController::class);
+Route::apiResource('classes', ClassRoomController::class);
+Route::apiResource('subjects', SubjectController::class);
+Route::apiResource('results', ExamResultController::class);
 });
