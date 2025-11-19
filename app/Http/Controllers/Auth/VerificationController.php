@@ -12,23 +12,23 @@ class VerificationController extends Controller
     public function verify(Request $request, $id)
     {
         if (! $request->hasValidSignature()) {
-            return "Invalid or expired verification link!";
+            return redirect('/login')->with('error', 'Invalid or expired verification link!');
         }
 
         $user = User::find($id);
 
         if (!$user) {
-            return "User not found!";
+            return redirect('/login')->with('error', 'User not found!');
         }
 
         if ($user->email_verified_at) {
-            return "Your account is already activated!";
+            return redirect('/login')->with('info', 'Your account is already activated!');
         }
 
-        // Update verified time
-        $user->email_verified_at = Carbon::now();
-        $user->save(); // ✅ use save() instead of update() to ensure working
+        $user->email_verified_at = now();
+        $user->save();
 
-        return "✅ Your account has been activated! You can now login.";
+        return redirect('/login')->with('success', 'Your account has been activated! You can now login.');
     }
+
 }
