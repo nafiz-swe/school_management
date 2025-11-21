@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers\Web;
 
 use App\Http\Controllers\Controller;
 use App\Models\ClassRoom;
@@ -10,7 +10,13 @@ class ClassRoomController extends Controller
 {
     public function index()
     {
-        return response()->json(ClassRoom::with('students', 'subjects')->get(), 200);
+        $classes = ClassRoom::all();
+        return view('classes.class', compact('classes'));
+    }
+
+    public function create()
+    {
+        return view('classes.class'); // same blade, form will detect create/edit
     }
 
     public function store(Request $request)
@@ -23,14 +29,14 @@ class ClassRoomController extends Controller
             'section' => 'required|string',
         ]);
 
-        $class = ClassRoom::create($data);
-
-        return response()->json(['message' => 'Class created', 'data' => $class], 201);
+        ClassRoom::create($data);
+        return redirect()->route('class_rooms.index')->with('success', 'Class created');
     }
 
-    public function show(ClassRoom $classRoom)
+    public function edit(ClassRoom $classRoom)
     {
-        return response()->json($classRoom->load('students', 'subjects'), 200);
+        $classes = ClassRoom::all();
+        return view('classes.class', compact('classes', 'classRoom'));
     }
 
     public function update(Request $request, ClassRoom $classRoom)
@@ -44,13 +50,12 @@ class ClassRoomController extends Controller
         ]);
 
         $classRoom->update($data);
-
-        return response()->json(['message' => 'Class updated', 'data' => $classRoom], 200);
+        return redirect()->route('class_rooms.index')->with('success', 'Class updated');
     }
 
     public function destroy(ClassRoom $classRoom)
     {
         $classRoom->delete();
-        return response()->json(['message' => 'Class deleted'], 200);
+        return redirect()->route('class_rooms.index')->with('success', 'Class deleted');
     }
 }

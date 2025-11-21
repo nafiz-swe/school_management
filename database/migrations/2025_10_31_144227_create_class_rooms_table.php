@@ -13,7 +13,11 @@ return new class extends Migration
     {
         Schema::create('class_rooms', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->string('class_level');
+            $table->string('room_number');
+            $table->string('floor_number')->nullable();
+            $table->string('group_name');
+            $table->string('section');
             $table->timestamps();
         });
     }
@@ -27,3 +31,14 @@ return new class extends Migration
         Schema::dropIfExists('class_rooms');
     }
 };
+
+
+
+// php artisan tinker
+// \App\Models\ClassRoom::create([
+//     'class_level'  => '6',
+//     'room_number'  => '216',
+//     'floor_number' => '2',
+//     'group_name'   => 'Commerce',
+//     'section'      => 'B',
+// ]);

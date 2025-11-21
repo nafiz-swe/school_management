@@ -16,7 +16,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'email_verified_at',  // এইটা add করতে হবে
+        'email_verified_at', 
     ];
 
     // Hidden attributes

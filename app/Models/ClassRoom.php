@@ -8,7 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 class ClassRoom extends Model
 {
     use HasFactory;
-    protected $fillable = ['name'];
+        protected $fillable = [
+        'class_level',
+        'room_number',
+        'floor_number',
+        'group_name',
+        'section',
+    ];
 
     public function subjects()
     {
