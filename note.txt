@@ -1,5 +1,109 @@
+Important Laravel Commands & Their Use (with comments)
+
 php artisan optimize:clear
+// Cache clear করার জন্য। Config, Route, View, Cache সব reset করে।
+
+php artisan cache:clear
+// শুধু application cache clear করে।
+
+php artisan config:cache
+// Config files cache করে, performance বাড়ায়।
+
+php artisan route:cache
+// Route cache করে, route loading দ্রুত হয়।
+
+php artisan view:clear
+// Blade view cache clear করে।
+
 php artisan tinker
+// Laravel এর interactive shell, Eloquent বা code test করার জন্য।
+
+php artisan migrate
+// Migration run করে database এ table create/update করার জন্য।
+
 php artisan migrate:fresh
+// সব table drop করে আবার migrate run করে, clean start এর জন্য।
+
+php artisan migrate:rollback
+// শেষ migration undo করে।
+
+php artisan migrate:reset
+// সব migration undo করে database empty করে।
+
 php artisan make:migration create_products_table
+// নতুন migration file create করে, table design করার জন্য।
+
 php artisan make:model Product -m
+// নতুন Eloquent Model create করে এবং সাথে migration file (-m) generate করে।
+
+php artisan make:controller ProductController
+// নতুন Controller তৈরি করে।
+
+php artisan make:controller Api/ProductApiController
+// নতুন API Controller create করে।
+
+php artisan make:request StoreProductRequest
+// Form Request class create করে, store validation handle করার জন্য।
+
+php artisan make:request UpdateProductRequest
+// Form Request class create করে, update validation handle করার জন্য।
+
+php artisan make:factory ProductFactory
+// Factory create করে, fake data generate করার জন্য।
+
+php artisan make:seeder ProductSeeder
+// Seeder create করে, demo data বা default data insert করার জন্য।
+
+php artisan db:seed
+// Seeder run করে database এ data insert করার জন্য।
+
+php artisan db:seed --class=ProductSeeder
+// নির্দিষ্ট seeder run করে।
+
+php artisan make:middleware CheckAdmin
+// নতুন middleware create করে।
+
+php artisan route:list
+// সব route দেখায়, method, uri, name, middleware সহ।
+
+php artisan serve
+// Laravel local server start করে, default: http://127.0.0.1:8000
+
+composer install
+// composer.json অনুযায়ী project dependency install করে।
+
+composer update
+// dependency update করে।
+
+npm install
+// Node dependency install করে।
+
+npm run dev
+// Frontend asset compile & watch করে।
+
+npm run build
+// Production ready assets compile করে।
+
+php artisan vendor:publish
+// Package এর resource publish করার জন্য।
+
+php artisan storage:link
+// storage folder এর link public folder এ create করে, uploaded file access এর জন্য।
+
+php artisan key:generate
+// Laravel app key generate করে, .env file এ set হয়।
+
+php artisan event:generate
+// Event & Listener scaffold generate করে।
+
+php artisan make:event UserRegistered
+// নতুন Event class create করে।
+
+php artisan make:listener SendWelcomeEmail
+// নতুন Listener create করে।
+
+php artisan queue:work
+// Queue jobs process করার জন্য।
+
+php artisan queue:listen
+// Queue jobs continuously listen & process করার জন্য।
