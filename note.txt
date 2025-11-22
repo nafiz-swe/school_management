@@ -107,3 +107,10 @@ php artisan queue:work
 
 php artisan queue:listen
 // Queue jobs continuously listen & process করার জন্য।
+
+php artisan make:resource ClassRoomResource
+
+// Authentication System (Sanctum)
+composer require laravel/sanctum
+php artisan vendor:publish --provider="Laravel\Sanctum\SanctumServiceProvider"
+php artisan migrate

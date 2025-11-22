@@ -32,6 +32,6 @@ class LoginController extends Controller
 
         auth()->login($user);
 
-        return redirect('/dashboard'); // Change as per your dashboard route
+        return redirect('/dashboard');
     }
 }

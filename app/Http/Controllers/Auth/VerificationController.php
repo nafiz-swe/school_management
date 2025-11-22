@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Carbon\Carbon;
 
 class VerificationController extends Controller
 {
@@ -22,13 +21,12 @@ class VerificationController extends Controller
         }
 
         if ($user->email_verified_at) {
-            return redirect('/login')->with('info', 'Your account is already activated!');
+            return redirect('/login')->with('info', 'Already activated!');
         }
 
         $user->email_verified_at = now();
         $user->save();
 
-        return redirect('/login')->with('success', 'Your account has been activated! You can now login.');
+        return redirect('/login')->with('success', 'Your account is activated! Login now.');
     }
-
 }

@@ -250,5 +250,24 @@ Cache, config, route clear ও cache করা হলে performance বৃদ�
 
 php artisan migrate:fresh ব্যবহার করলে সব data loss হয়, শুধুমাত্র development/testing এর জন্য ব্যবহার করা ভালো।
 # ##
+
+## Polymorphic:
+একটা table অনেক model এর সাথে relation করতে পারে।
+Example: Image model অনেক জিনিসের সাথে attach হতে পারে (Student, Teacher, Product)।
+
+#### Summary
+Migration → Database structure create/update
+
+Seeder → Fake/demo data insert
+
+Relationships → Data fetch/insert সহজে
+
+One-to-Many → single parent, many child
+
+Many-to-Many → pivot table for many relations
+
+HasManyThrough → indirect relation
+
+Polymorphic → single table many models
 #### Maintainer: Nafizul Islam
 #### Project: Student Management System (Laravel)

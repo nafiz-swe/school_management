@@ -1,24 +1,23 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Auth\ApiAuthController;
 use App\Http\Controllers\Api\StudentApiController;
 use App\Http\Controllers\Api\ClassRoomController;
-
 use App\Http\Controllers\Api\SubjectController;
 use App\Http\Controllers\Api\ExamResultController;
 
-// Public Auth
-Route::post('/register', [AuthController::class, 'register']);
-Route::post('/login', [AuthController::class, 'login']);
+// Public Auth APIs (Mobile/Web App)
+Route::post('/register', [ApiAuthController::class, 'register']); // Register API
+Route::post('/login', [ApiAuthController::class, 'login']);       // Login API
 
-// Protected Routes
-Route::middleware('auth:sanctum')->group(function () {
-    Route::post('/logout', [AuthController::class, 'logout']);
-    // API Resource
-    Route::apiResource('students', StudentApiController::class);
-    // Route::apiResource('classes', ClassRoomController::class);
-    Route::apiResource('classes', ClassRoomController::class);
-    Route::apiResource('subjects', SubjectController::class);
-    Route::apiResource('results', ExamResultController::class);
+// Protected APIs (Token required: Sanctum)
+Route::middleware('auth:sanctum')->group(function() {
+    Route::post('/logout', [ApiAuthController::class, 'logout']); // Logout API
+
+    // API Resources
+    Route::apiResource('students', StudentApiController::class); // CRUD Students
+    Route::apiResource('classes', ClassRoomController::class);   // CRUD Classes
+    Route::apiResource('subjects', SubjectController::class);    // CRUD Subjects
+    Route::apiResource('results', ExamResultController::class);  // CRUD Exam Results
 });

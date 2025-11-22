@@ -6,20 +6,19 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable;
+    use HasFactory, Notifiable, HasApiTokens;
 
-    // Mass assignable attributes
     protected $fillable = [
         'name',
         'email',
         'password',
-        'email_verified_at', 
+        'email_verified_at',
     ];
 
-    // Hidden attributes
     protected $hidden = [
         'password',
         'remember_token',
@@ -29,4 +28,3 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 }
-
