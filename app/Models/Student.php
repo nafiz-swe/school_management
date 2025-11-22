@@ -9,6 +9,17 @@ class Student extends Model
 {
     use HasFactory;
 
+    /*
+        🔹 এই Model টি Student table এর ডাটার representation handle করে।  
+        🔹 Web এর জন্য StudentController এবং API এর জন্য StudentApiController দুটোই এই একই Model ব্যবহার করে।  
+        🔹 Model মূলত database access, relationships এবং mass assignment handle করে।  
+        🔹 Controller শুধু request অনুযায়ী logic handle করে:  
+            - Web Controller: Blade/Vue/React view return + redirect + session messages।  
+            - API Controller: JSON response + HTTP status codes + API validation।  
+        🔹 একটাই Model থাকা মানে database table শুধু একবার define হয়েছে, code duplication নেই।  
+        🔹 Professionalভাবে comment দেওয়ার কারণে ভবিষ্যতে বুঝতে সুবিধা হয়, এবং maintenance সহজ হয়।  
+    */
+
     protected $fillable = [
         'class_id',
         'name',
@@ -44,7 +55,6 @@ class Student extends Model
         'notes'
     ];
 
-    // Correct relationship with class_rooms table
     public function classRoom()
     {
         return $this->belongsTo(ClassRoom::class, 'class_id');

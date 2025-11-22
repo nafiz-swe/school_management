@@ -96,3 +96,94 @@ php artisan vendor:publish --provider="Laravel\Sanctum\SanctumServiceProvider"
 ## APP pass
 EMAIL_ADDRESS = "?????????@gmail.com"
 EMAIL_PASSWORD = "jwnwzwaolgnadxfq"
+
+# ##
+
+## Student Management System (Laravel) - Web & API
+
+#### Overview:
+এই প্রজেক্টে Laravel ব্যবহার করে Student Management System তৈরি করা হয়েছে। Web এবং API উভয় ইন্টারফেসে CRUD operations support করে।
+Web Controller Blade views render করে, API Controller JSON response return করে।
+
+#### Features:
+Students CRUD (Create, Read, Update, Delete)
+
+ClassRoom relation (Student belongsTo ClassRoom)
+
+Photo upload & replace support
+
+Validation handled professionally via Form Request (Web) এবং Validator (API)
+
+Pagination for listing students
+
+#### Folder / File Structure:
+app/Http/Controllers/StudentController.php → Web CRUD
+app/Http/Controllers/Api/StudentApiController.php → API CRUD
+app/Http/Requests/StoreStudentRequest.php → Web store validation
+app/Http/Requests/UpdateStudentRequest.php → Web update validation
+app/Models/Student.php → Model with fillable fields & relation with ClassRoom
+app/Models/ClassRoom.php → Model for class_rooms table
+
+#### Installation Steps:
+
+Laravel install করতে হবে, তারপর project open করতে হবে VS Code এ
+
+.env ফাইলে database config set করতে হবে
+
+Migration তৈরি করতে হবে Student এবং ClassRoom model দিয়ে
+
+Migration run করতে হবে php artisan migrate দিয়ে
+
+#### Controller & Request:
+Web Controller এ Store এবং Update এর জন্য Form Request use করা হয়েছে professional validation এর জন্য
+API Controller এ Validator::make() দিয়ে Web এর মতো full validation handle করা হয়েছে, JSON response structured: status, message, data
+
+#### Routes:
+Web: Route::resource('students', StudentController::class)
+API: Route::apiResource('students', App\Http\Controllers\Api\StudentApiController::class)
+
+#### Views (Web):
+resources/views/students/index.blade.php → List students
+resources/views/students/create.blade.php → Create student form
+resources/views/students/edit.blade.php → Edit student form
+
+#### CRUD Workflow:
+
+Create → Web: StudentController@store, API: StudentApiController@store, Validation: StoreStudentRequest/Web Validator
+
+Read → Web: StudentController@index & show, API: StudentApiController@index & show
+
+Update → Web: StudentController@update, API: StudentApiController@update, Validation: UpdateStudentRequest/Web Validator
+
+Delete → Web: StudentController@destroy, API: StudentApiController@destroy
+
+Photo → Upload & replace handled both in Web and API
+
+#### Commands Reference:
+
+Make Model + Migration: php artisan make:model Student -m এবং php artisan make:model ClassRoom -m
+
+Make Controller: php artisan make:controller StudentController এবং php artisan make:controller Api/StudentApiController
+
+Make Form Request: php artisan make:request StoreStudentRequest এবং php artisan make:request UpdateStudentRequest
+
+Run Migration: php artisan migrate
+
+Run Project: php artisan serve
+
+#### Notes:
+
+একটাই Student model দিয়ে Web এবং API Controller দুই-ই handle করে। আলাদা model লাগেনা।
+
+Web Controller Blade views render করে
+
+API Controller JSON response return করে
+
+Photo upload & validation দুই-ই handled professionally
+
+Form Requests Web এ professional validation maintain করে
+
+API Controller এ Validator::make() দিয়ে Web এর মতো validation handled
+# ##
+#### Maintainer: Nafiz Noyon
+#### Project: Student Management System (Laravel)

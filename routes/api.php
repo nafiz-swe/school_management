@@ -15,7 +15,6 @@ Route::post('/login', [AuthController::class, 'login']);
 // Protected Routes
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
-
     // API Resource
     Route::apiResource('students', StudentApiController::class);
     // Route::apiResource('classes', ClassRoomController::class);

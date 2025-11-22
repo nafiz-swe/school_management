@@ -4,142 +4,126 @@ namespace App\Http\Controllers;
 
 use App\Models\Student;
 use App\Models\ClassRoom;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+use App\Http\Requests\StoreStudentRequest;
+use App\Http\Requests\UpdateStudentRequest;
 
 class StudentController extends Controller
 {
-    // List all students
+    /*
+        🔹 এই Controller টি Web এর জন্য।  
+        🔹 Student এর CRUD operations handle করে।  
+        🔹 Student model কে ব্যবহার করে database access করে।  
+        🔹 Request file (StoreStudentRequest, UpdateStudentRequest) দিয়ে validation professionalভাবে handle করা হয়েছে।  
+        🔹 Photo upload/delete handling ও included।  
+        🔹 Exception handling দিয়ে যদি কোনো error হয় তা back() সহ message দেখায়।  
+        🔹 Index, create, edit view return করে Blade/Vue/React templates handle করে।  
+    */
+
+    // List all students with pagination
     public function index()
     {
-        $students = Student::with('classRoom')->get(); // classRoom relation সহ
-        return view('students.index', compact('students'));
+        $students = Student::with('classRoom')->paginate(10); // classRoom relation load
+        return view('students.index', compact('students')); // Blade view return
     }
 
     // Show create form
     public function create()
     {
-        $classRooms = ClassRoom::all(); // Dropdown জন্য
+        $classRooms = ClassRoom::all(); // Dropdown জন্য সব classRoom
         return view('students.create', compact('classRooms'));
     }
 
     // Store new student
-    public function store(Request $request)
+    public function store(StoreStudentRequest $request)
     {
-        $data = $request->validate([
-            'class_id' => 'required|exists:class_rooms,id',
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:students,email',
-            'student_phone' => 'nullable|string|max:20',
-            'address' => 'nullable|string',
-            'date_of_birth' => 'nullable|date',
-            'gender' => 'nullable|in:male,female,other',
-            'guardian_name' => 'nullable|string|max:255',
-            'guardian_phone' => 'nullable|string|max:20',
-            'guardian_email' => 'nullable|email',
-            'guardian_relationship' => 'nullable|string|max:255',
-            'enrollment_date' => 'nullable|date',
-            'status' => 'nullable|string',
-            'photo_path' => 'nullable|file|image|max:2048',
-            'roll_number' => 'nullable|string|unique:students,roll_number',
-            'admission_number' => 'nullable|string|unique:students,admission_number',
-            'blood_group' => 'nullable|string|max:10',
-            'national_id' => 'nullable|string|unique:students,national_id',
-            'religion' => 'nullable|string|max:50',
-            'mother_tongue' => 'nullable|string|max:50',
-            'previous_school' => 'nullable|string|max:255',
-            'medical_conditions' => 'nullable|string|max:255',
-            'allergies' => 'nullable|string|max:255',
-            'emergency_contact_name' => 'nullable|string|max:255',
-            'emergency_contact_phone' => 'nullable|string|max:20',
-            'father_profession' => 'nullable|string|max:255',
-            'mother_profession' => 'nullable|string|max:255',
-            'transportation_mode' => 'nullable|string|max:50',
-            'dormitory' => 'nullable|string|max:50',
-            'scholarship_details' => 'nullable|string|max:255',
-            'hobbies' => 'nullable|string|max:255',
-            'notes' => 'nullable|string',
-        ]);
+        /*
+            🔹 StoreStudentRequest এ সব validation handle হয়
+            🔹 try-catch দিয়ে professional error handling
+            🔹 Photo upload handled
+            🔹 Success message back() return
+        */
+        try {
+            $data = $request->validated();
 
-        // Photo upload
-        if ($request->hasFile('photo_path')) {
-            $data['photo_path'] = $request->file('photo_path')->store('students', 'public');
+            // Upload photo
+            if ($request->hasFile('photo_path')) {
+                $data['photo_path'] = $request->file('photo_path')->store('students', 'public');
+            }
+
+            Student::create($data);
+
+            return back()->with('success', 'Student created successfully!');
+
+        } catch (\Exception $e) {
+            return back()->with('error', 'Something went wrong! ' . $e->getMessage());
         }
-
-        Student::create($data);
-
-        return redirect()->route('students.index')->with('success', 'Student created successfully!');
     }
 
     // Show edit form
     public function edit($id)
     {
-        $student = Student::findOrFail($id);
+        $student = Student::findOrFail($id); // ID থেকে student load
         $classRooms = ClassRoom::all();
+
         return view('students.edit', compact('student', 'classRooms'));
     }
 
     // Update student
-    public function update(Request $request, $id)
+    public function update(UpdateStudentRequest $request, $id)
     {
-        $student = Student::findOrFail($id);
+        /*
+            🔹 UpdateStudentRequest এ validation handle
+            🔹 try-catch দিয়ে professional error handling
+            🔹 Photo replace handled
+            🔹 Success/error message back() return
+        */
+        try {
+            $student = Student::findOrFail($id);
+            $data = $request->validated();
 
-        $data = $request->validate([
-            'class_id' => 'required|exists:class_rooms,id',
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:students,email,' . $student->id,
-            'student_phone' => 'nullable|string|max:20',
-            'address' => 'nullable|string',
-            'date_of_birth' => 'nullable|date',
-            'gender' => 'nullable|in:male,female,other',
-            'guardian_name' => 'nullable|string|max:255',
-            'guardian_phone' => 'nullable|string|max:20',
-            'guardian_email' => 'nullable|email',
-            'guardian_relationship' => 'nullable|string|max:255',
-            'enrollment_date' => 'nullable|date',
-            'status' => 'nullable|string',
-            'photo_path' => 'nullable|file|image|max:2048',
-            'roll_number' => 'nullable|string|unique:students,roll_number,' . $student->id,
-            'admission_number' => 'nullable|string|unique:students,admission_number,' . $student->id,
-            'blood_group' => 'nullable|string|max:10',
-            'national_id' => 'nullable|string|unique:students,national_id,' . $student->id,
-            'religion' => 'nullable|string|max:50',
-            'mother_tongue' => 'nullable|string|max:50',
-            'previous_school' => 'nullable|string|max:255',
-            'medical_conditions' => 'nullable|string|max:255',
-            'allergies' => 'nullable|string|max:255',
-            'emergency_contact_name' => 'nullable|string|max:255',
-            'emergency_contact_phone' => 'nullable|string|max:20',
-            'father_profession' => 'nullable|string|max:255',
-            'mother_profession' => 'nullable|string|max:255',
-            'transportation_mode' => 'nullable|string|max:50',
-            'dormitory' => 'nullable|string|max:50',
-            'scholarship_details' => 'nullable|string|max:255',
-            'hobbies' => 'nullable|string|max:255',
-            'notes' => 'nullable|string',
-        ]);
+            // Replace photo
+            if ($request->hasFile('photo_path')) {
+                if ($student->photo_path && Storage::disk('public')->exists($student->photo_path)) {
+                    Storage::disk('public')->delete($student->photo_path);
+                }
 
-        // Photo upload
-        if ($request->hasFile('photo_path')) {
-            $data['photo_path'] = $request->file('photo_path')->store('students', 'public');
+                $data['photo_path'] = $request->file('photo_path')->store('students', 'public');
+            }
+
+            $student->update($data);
+
+            return back()->with('success', 'Student updated successfully!');
+
+        } catch (\Exception $e) {
+            return back()->with('error', 'Update failed: ' . $e->getMessage());
         }
-
-        $student->update($data);
-
-        return redirect()->route('students.index')->with('success', 'Student updated successfully!');
     }
 
     // Delete student
     public function destroy($id)
     {
-        $student = Student::findOrFail($id);
-        $student->delete();
-        return redirect()->route('students.index')->with('success', 'Student deleted successfully!');
-    }
+        /*
+            🔹 ID দিয়ে student load
+            🔹 Photo delete handled
+            🔹 Student delete
+            🔹 try-catch দিয়ে professional error handling
+            🔹 Success/error message back() return
+        */
+        try {
+            $student = Student::findOrFail($id);
 
-    // Show single student (optional)
-    public function show($id)
-    {
-        $student = Student::with('classRoom')->findOrFail($id);
-        return view('students.show', compact('student'));
+            // Delete photo
+            if ($student->photo_path && Storage::disk('public')->exists($student->photo_path)) {
+                Storage::disk('public')->delete($student->photo_path);
+            }
+
+            $student->delete();
+
+            return back()->with('success', 'Student deleted successfully!');
+
+        } catch (\Exception $e) {
+            return back()->with('error', 'Delete failed: ' . $e->getMessage());
+        }
     }
 }

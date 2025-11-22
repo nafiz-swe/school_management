@@ -22,7 +22,7 @@
                 <th>ID</th>
                 <th>Name</th>
                 <th>Email</th>
-                <th>Class Room ID</th>
+                <th>Class ID</th>
                 <th>Phone</th>
                 <th>Status</th>
                 <th>Actions</th>
@@ -34,7 +34,7 @@
                 <td>{{ $student->id }}</td>
                 <td>{{ $student->name }}</td>
                 <td>{{ $student->email }}</td>
-                <td>{{ $student->class_rooms_id }}</td>
+                <td>{{ $student->class_id }}</td>
                 <td>{{ $student->student_phone }}</td>
                 <td>{{ $student->status }}</td>
                 <td>
